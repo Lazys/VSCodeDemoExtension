@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 
-export class DefinitionProvider {
+export class VulcanDefinitionProvider {
 
     provideDefinition(document: vscode.TextDocument,
         position: vscode.Position,
@@ -8,6 +8,7 @@ export class DefinitionProvider {
 
         let a = document.getText();
         let b = document.getWordRangeAtPosition(position);
+        let c = document.getText(b);
 
         return null;
 
