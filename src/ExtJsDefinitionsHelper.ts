@@ -1,8 +1,12 @@
 import * as vscode from 'vscode';
 
+import { IVulcanConfig } from './interfaces/IVulcanConfig'
+import { LogHelper } from "./LogHelper";
+import { LogLevelEnum } from "./enums/LogLevelEnum";
+
 export class ExtJsDefinitionsHelper {
 
-    convertToPath(selectedString, config): string {
+    convertToPath(selectedString: string, config: IVulcanConfig): string {
         let path = selectedString.replace(config.applicationName, config.applicationFolder);
         path = path.replace(new RegExp('\\.', 'g'), '\\');
         path = vscode.workspace.rootPath + path + '.js';
@@ -10,7 +14,7 @@ export class ExtJsDefinitionsHelper {
         return path;
     }
 
-    getCorrectSelectedDefinition(document, position, config): string {
+    getCorrectSelectedDefinition(document: vscode.TextDocument, position: vscode.Position, config: IVulcanConfig): string {
         const line = document.lineAt(position);
         const lineText = line.text;
 
@@ -19,7 +23,8 @@ export class ExtJsDefinitionsHelper {
 
         if (!this.isString(stringStartMarkCharIndex, stringEndMarkCharIndex)) {
             // Miejsce, w które kliknął użytkownik nie jest stringiem
-
+            LogHelper.logError('ExtJsDefinitionsHelper - string not found.', LogLevelEnum.debug);
+            
             return null;
         }
 
@@ -31,20 +36,22 @@ export class ExtJsDefinitionsHelper {
 
         if (!patternExists) {
             // Kliknięty string nie spełnia wzoru "abc.abc.abc"
-
+            LogHelper.logError('ExtJsDefinitionsHelper - regex pattern not found.', LogLevelEnum.debug);
+            
             return null;
         }
 
         if (!selectedString.startsWith(config.applicationName)) {
             // Kliknięta definicja nie należy do aktualnego projektu
-
+            LogHelper.logError('ExtJsDefinitionsHelper - application name at the beginning not found.', LogLevelEnum.debug);
+            
             return null;
         }
 
         return selectedString;
     }
 
-    findStringStartMark(selectedLineText, position): number {
+    findStringStartMark(selectedLineText: string, position: vscode.Position): number {
         let stringStartMarkCharacterIndex = -1;
 
         for (let index = position.character; index > 0; index--) {
@@ -60,7 +67,7 @@ export class ExtJsDefinitionsHelper {
         return stringStartMarkCharacterIndex;
     }
 
-    findStringEndMark(selectedLineText, position): number {
+    findStringEndMark(selectedLineText: string, position: vscode.Position): number {
         let stringEndMarkCharacterIndex = -1;
 
         for (let index = position.character; index < selectedLineText.length; index++) {
@@ -76,15 +83,15 @@ export class ExtJsDefinitionsHelper {
         return stringEndMarkCharacterIndex;
     }
 
-    isIndexCorrect(index): boolean {
+    isIndexCorrect(index: number): boolean {
         return index !== -1;
     }
 
-    isString(stringStartMarkCharIndex, stringEndMarkCharIndex): boolean {
+    isString(stringStartMarkCharIndex: number, stringEndMarkCharIndex: number): boolean {
         return this.isIndexCorrect(stringStartMarkCharIndex) && this.isIndexCorrect(stringEndMarkCharIndex);
     }
 
-    getSelectedString(document, line, stringStartMarkCharIndex, stringEndMarkCharIndex): string {
+    getSelectedString(document: vscode.TextDocument, line: vscode.TextLine, stringStartMarkCharIndex: number, stringEndMarkCharIndex: number): string {
         return document.getText(
             new vscode.Range(
                 new vscode.Position(line.lineNumber, stringStartMarkCharIndex),

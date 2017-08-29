@@ -1,6 +1,6 @@
 import { jsmin } from 'jsmin';
 
-import { VulcanConfig } from './VulcanConfig'
+import { IVulcanConfig } from './interfaces/IVulcanConfig'
 
 export class JsonHelper {
 
@@ -8,10 +8,10 @@ export class JsonHelper {
      * Metoda czyści JSON'a z komentarzy
      * które uniemożliwiają parsowanie
      */
-    parse(json: string): VulcanConfig {
+    parse(json: string): IVulcanConfig {
         const jsonMinimalized = jsmin(json);
 
-        return <VulcanConfig>JSON.parse(jsonMinimalized);
+        return <IVulcanConfig>JSON.parse(jsonMinimalized);
     }
 
 }

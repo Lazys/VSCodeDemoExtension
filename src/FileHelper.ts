@@ -2,7 +2,7 @@ import * as fs from 'fs';
 
 export class FileHelper {
 
-    async readFile(path): Promise<string> {
+    async readFile(path: string): Promise<string> {
         return new Promise((resolve, reject) => {
             fs.readFile(path, 'utf8', (err, data) => {
                 if (err) {
