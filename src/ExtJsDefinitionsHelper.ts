@@ -7,9 +7,16 @@ import { LogLevelEnum } from "./enums/LogLevelEnum";
 export class ExtJsDefinitionsHelper {
 
     convertToPath(selectedString: string, config: IVulcanConfig): string {
+        LogHelper.logInfo(`convertToPath - selectedString: ${selectedString}.`, LogLevelEnum.debug);
+
         let path = selectedString.replace(config.applicationName, config.applicationFolder);
+        LogHelper.logInfo(`convertToPath - selectedString with replaced application name: ${path}.`, LogLevelEnum.debug);
+
         path = path.replace(new RegExp('\\.', 'g'), '\\');
+        LogHelper.logInfo(`convertToPath - selectedString with replaced dots: ${path}.`, LogLevelEnum.debug);
+
         path = vscode.workspace.rootPath + path + '.js';
+        LogHelper.logInfo(`convertToPath - path: ${path}.`, LogLevelEnum.debug);
 
         return path;
     }
@@ -23,8 +30,8 @@ export class ExtJsDefinitionsHelper {
 
         if (!this.isString(stringStartMarkCharIndex, stringEndMarkCharIndex)) {
             // Miejsce, w które kliknął użytkownik nie jest stringiem
-            LogHelper.logError('ExtJsDefinitionsHelper - string not found.', LogLevelEnum.debug);
-            
+            LogHelper.logInfo('ExtJsDefinitionsHelper - string not found.', LogLevelEnum.debug);
+
             return null;
         }
 
@@ -36,15 +43,15 @@ export class ExtJsDefinitionsHelper {
 
         if (!patternExists) {
             // Kliknięty string nie spełnia wzoru "abc.abc.abc"
-            LogHelper.logError('ExtJsDefinitionsHelper - regex pattern not found.', LogLevelEnum.debug);
-            
+            LogHelper.logInfo('ExtJsDefinitionsHelper - regex pattern not found.', LogLevelEnum.debug);
+
             return null;
         }
 
         if (!selectedString.startsWith(config.applicationName)) {
             // Kliknięta definicja nie należy do aktualnego projektu
-            LogHelper.logError('ExtJsDefinitionsHelper - application name at the beginning not found.', LogLevelEnum.debug);
-            
+            LogHelper.logInfo('ExtJsDefinitionsHelper - application name at the beginning not found.', LogLevelEnum.debug);
+
             return null;
         }
 

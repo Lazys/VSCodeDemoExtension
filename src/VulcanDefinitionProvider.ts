@@ -24,14 +24,12 @@ export class VulcanDefinitionProvider implements vscode.DefinitionProvider {
             if (selectedDefinition === null) {
                 // Prawidłowa definicja nie została odnaleziona w tekście,
                 // w który kliknął użytkownik
-                LogHelper.logError('VulcanDefinitionProvider - definition not found.', LogLevelEnum.debug);
+                LogHelper.logInfo('VulcanDefinitionProvider - definition not found.', LogLevelEnum.debug);
 
                 return null;
             }
 
             const path = this._extJsDefinitionsHelper.convertToPath(selectedDefinition, this._config);
-
-            LogHelper.logError(`VulcanDefinitionProvider - definition found. Path: ${path}.`, LogLevelEnum.debug);
 
             return new vscode.Location(vscode.Uri.file(path), new vscode.Position(0, 0));
         } catch (error) {
