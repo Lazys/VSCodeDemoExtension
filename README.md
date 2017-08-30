@@ -34,6 +34,10 @@ Wydanie rozszerzenia.
 
 ## Informacje dotyczące developmentu
 
+* Wszelkie informacje związane z developmentem znaleźć można na [stronie poświęconej budowaniu rozszerzeń do VS Code](https://code.visualstudio.com/docs/extensions/overview).
+
+Informacje dodatkowe:
+
 * Rozszerzenie po zainstalowaniu w VS Code w systemie operacyjnym Windows znajduje się w lokalizacji `%USERPROFILE%\.vscode\extensions`.
 * Logi w systemie operacyjnym Windows znajdują się w lokalizacji `%USERPROFILE%\.vulcan\VSCode` (są to te same, które można wyświetlić w VS Code korzystając z komendy `Show Vulcan Ext JS Plugin Log File`).
 * Rozszerzenie można debugować przy pomocy klawisza `F5`. Należy pamiętać, aby w VS Code otworzyć główny folder zawierający rozszerzenie tak, aby jednym z bezpośrednich podfolderów był folder `.vscode`. 
